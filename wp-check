@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php declare( strict_types = 1 );
+
+namespace PiotrPress\WordPress\LinkChecker;
+
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\SingleCommandApplication;
+
+require __DIR__ . '/vendor/autoload.php';
+
+exit( ( new SingleCommandApplication() )
+    ->setName( 'WordPress Link Checker' )
+    ->setVersion( '1.0.0' )
+    ->addArgument( 'url', InputArgument::REQUIRED )
+    ->addOption( 'exclude-type', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY )
+    ->addOption( 'exclude-post', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY )
+    ->setCode( function( InputInterface $input, OutputInterface $output ) : int {
+
+        $site = new Site( $input->getArgument( 'url' ) );
+        $check = new Check( $site->getUrl() );
+        foreach( $site->getPosts( $input->getOption( 'exclude-type' ), $input->getOption( 'exclude-post' ) ) as $url => $content )
+            foreach( $check->getLinks( $content ) as $link => $status ) if( 400 <= $status or 0 === $status ) $output->writeln( "[ $status ] $link => $url" );
+
+        return Command::SUCCESS;
+    } )
+    ->run() );

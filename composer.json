@@ -1,0 +1,27 @@
+{
+    "name": "piotrpress/wordpress-link-checker",
+    "type": "project",
+    "license": "MIT",
+    "description": "WordPress Link Checker is a command line tool that checks for broken links on a WordPress website.",
+    "homepage": "https://github.com/PiotrPress/wordpress-link-checker",
+    "authors": [
+        {
+            "name": "Piotr Niewiadomski",
+            "homepage": "https://piotr.press"
+        }
+    ],
+    "keywords": [ "wordpress", "wp", "link-checker", "broken-links", "blind-links", "404" ],
+    "require": {
+        "guzzlehttp/guzzle": "7.9.2",
+        "symfony/console": "7.2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "PiotrPress\\WordPress\\LinkChecker\\": "src/"
+        },
+        "classmap": [ "src" ]
+    },
+    "scripts": {
+        "post-update-cmd": "chmod +x wp-check"
+    }
+}

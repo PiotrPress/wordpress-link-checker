@@ -8,7 +8,8 @@ class Check {
     const string PATTERN = '/<a\s+href=["\']([^"\']+)["\']|<img\s+src=["\']([^"\']+)["\']/i';
 
     public function __construct(
-        private string $url
+        private string $url,
+        private Client $client = new Client()
     ) {}
 
     public function getLinks( string $content ) : array {
@@ -24,17 +25,7 @@ class Check {
     private function getStatus( string $url ) : int {
         if( \strpos( $url, 'http' ) !== 0 ) $url = $this->url . '/' . \ltrim( '/', $url );
 
-        try {
-            return ( new Client( [
-                'allow_redirects' => true,
-                'http_errors' => false,
-                'timeout' => 5,
-                'headers' => [
-                    'User-Agent' => 'WordPressLinkChecker/1.0.0',
-                ]
-            ] ) )->get( $url, [ 'verify' => false ] )->getStatusCode();
-        } catch( \Throwable $exception ) {
-            return 0;
-        }
+        try { return $this->client->get( $url, [ 'verify' => false, 'timeout' => 5 ] )->getStatusCode(); }
+        catch( \Throwable $exception ) { return 0; }
     }
 }

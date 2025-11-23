@@ -15,9 +15,9 @@ require __DIR__ . '/vendor/autoload.php';
 
 exit( ( new SingleCommandApplication() )
     ->setName( $name = 'WordPress Link Checker' )
-    ->setVersion( $version = '1.1.0' )
-    ->addArgument( 'url', InputArgument::REQUIRED )
-    ->addOption( 'user-agent', null, InputOption::VALUE_OPTIONAL, 'User-Agent header value', str_replace( ' ', '', $name ) . '/' . $version )
+    ->setVersion( $version = '1.1.1' )
+    ->addArgument( 'url', InputArgument::REQUIRED, 'Site URL to check' )
+    ->addOption( 'user-agent', null, InputOption::VALUE_OPTIONAL, 'User-Agent header value', \str_replace( ' ', '', $name ) . '/' . $version )
     ->addOption( 'exclude-type', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Post types to exclude (by slug)' )
     ->addOption( 'exclude-post', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Posts to exclude (by URL)' )
     ->setCode( function( InputInterface $input, OutputInterface $output ) use( $name, $version ) : int {

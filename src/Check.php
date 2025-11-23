@@ -8,8 +8,8 @@ class Check {
     const string PATTERN = '/<a\s+href=["\']([^"\']+)["\']|<img\s+src=["\']([^"\']+)["\']/i';
 
     public function __construct(
-        private string $url,
-        private Client $client = new Client()
+        private readonly string $url,
+        private readonly Client $client = new Client()
     ) {}
 
     public function getLinks( string $content ) : array {
@@ -23,7 +23,7 @@ class Check {
     }
 
     private function getStatus( string $url ) : int {
-        if( \strpos( $url, 'http' ) !== 0 ) $url = $this->url . '/' . \ltrim( '/', $url );
+        if( ! str_starts_with( $url, 'http' ) ) $url = $this->url . '/' . \ltrim( '/', $url );
 
         try { return $this->client->get( $url, [ 'verify' => false, 'timeout' => 5 ] )->getStatusCode(); }
         catch( \Throwable $exception ) { return 0; }

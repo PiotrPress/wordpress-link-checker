@@ -5,7 +5,7 @@ WordPress Link Checker is a command line tool that checks for broken links on a 
 ## Example
 
 ```shell
-$ php wp-check https://example.com --user-agent=WordPressLinkChecker/1.1.0 --exclude-type=post --exclude-post=https://example.com/sample-page
+$ php wp-check https://example.com --user-agent=WordPressLinkChecker/1.1.1 --exclude-type=post --exclude-post=https://example.com/sample-page
 ```
 
 ## Setup
@@ -35,6 +35,10 @@ The `<url>` argument is the URL of the WordPress website to check for broken lin
 - `--exclude-post` - option is used to exclude posts by URL from the check.
 
 ## Changelog
+
+Version 1.1.1
+
+- Few minor improvements.
 
 Version 1.1.0
 
